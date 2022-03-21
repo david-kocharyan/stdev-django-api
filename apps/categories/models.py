@@ -1,6 +1,5 @@
 from django.db import models
 from apps.core.models import TimeStampedAbstractModel
-from django.template.defaultfilters import slugify
 
 
 class Category(TimeStampedAbstractModel):

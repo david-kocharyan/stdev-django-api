@@ -30,6 +30,9 @@ urlpatterns = [
 
     # Posts
     path('api/post/', include('apps.posts.urls')),
+
+    # Categories
+    path('api/category/', include('apps.categories.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,6 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'slug',
+            'name'
         )
 
 
@@ -58,13 +59,18 @@ class PostCreateSerializer(serializers.Serializer):
     image = serializers.ImageField(required=True)
     category = serializers.IntegerField(required=True)
 
+    def validate_category(self, attr):
+        category = Category.objects.filter(pk=attr).first()
+        if not category:
+            raise serializers.ValidationError('Category not found')
+        return attr
+
     def create(self, validated_data):
-        category = Category.objects.filter(pk=validated_data['category']).first()
         post = Post.objects.create(
             title=validated_data['title'],
             description=validated_data['description'],
             image=validated_data['image'],
-            category=category,
+            category_id=validated_data['category'],
             author=self.context.get("user"),
         )
         return post
@@ -75,6 +81,12 @@ class PostPartialSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, max_length=250)
     image = serializers.ImageField(allow_null=True)
     category = serializers.IntegerField(required=True)
+
+    def validate_category(self, attr):
+        category = Category.objects.filter(pk=attr).first()
+        if not category:
+            raise serializers.ValidationError('Category not found')
+        return attr
 
     def update(self, instance, validated_data):
         category = Category.objects.get(pk=validated_data['category'])

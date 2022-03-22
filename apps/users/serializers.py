@@ -65,7 +65,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate_password(self, value):
-        """Validates that a password is as least 8 characters long and has at least
+        """Validates that a password is at least 8 characters long and has at least
             2 digits and 1 Upper case letter.
             """
         value = str(value)

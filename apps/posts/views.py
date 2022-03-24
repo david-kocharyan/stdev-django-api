@@ -16,6 +16,9 @@ class PostView(viewsets.ModelViewSet):
     ordering_fields = ['title', 'created_at', 'updated_at']
     filter_fields = ['created_at']
 
+    def get_queryset(self):
+        return Post.objects.all().order_by('-created_at')
+
     def get_serializer(self, *args, **kwargs):
         if self.action == 'create':
             serializer_class = PostCreateSerializer

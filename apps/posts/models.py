@@ -10,7 +10,12 @@ def post_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT / uploads/ posts/ post_time
     upload_to = 'uploads/posts/'
     ext = filename.split('.')[-1]
-    filename = 'post_{}.{}'.format(int(time.time()), ext)
+
+    if instance:
+        filename = 'post_{}.{}'.format(instance.title, ext)
+    else:
+        filename = 'post_{}.{}'.format(int(time.time()), ext)
+
     return os.path.join(upload_to, filename)
 
 

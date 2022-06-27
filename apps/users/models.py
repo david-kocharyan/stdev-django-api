@@ -7,10 +7,14 @@ from apps.core.models import TimeStampedAbstractModel
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT / uploads/ users/ user_time
+    # file will be uploaded to MEDIA_ROOT / uploads/ users/
     upload_to = 'uploads/users/'
     ext = filename.split('.')[-1]
-    filename = 'user_{}.{}'.format(int(time.time()), ext)
+    if instance:
+        filename = 'user_{}.{}'.format(instance.first_name, instance.last_name, ext)
+    else:
+        filename = 'user_{}.{}'.format(int(time.time()), ext)
+
     return os.path.join(upload_to, filename)
 
 
